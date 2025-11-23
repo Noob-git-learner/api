@@ -3,10 +3,12 @@
 // const express = require('express')
 
 import express from 'express'
+import bodyParser from 'body-parser'
 const app = express()
-const port = 3000
+const port = 3001
 
 
+app.use(bodyParser.urlencoded({ extended: true }))
 //get a random joke
 
 app.get("/random", (req, res) => {
@@ -32,6 +34,32 @@ app.get("/jokes/:id", (req, res) => {
     res.json(jokeFound)
 
 })
+
+
+//get all jokes
+
+app.get("/jokes", (req, res) => {
+    res.json(programmingJokes)
+})
+
+
+
+//create a joke
+
+app.post("/jokes", (req, res) => {
+    // res.json(programmingJokes)
+
+    const newJoke = {
+        id: programmingJokes.length + 1,
+        jokeText: req.body.jokeText,
+        jokeType: req.body.jokeType
+    }
+    programmingJokes.push(newJoke)
+    console.log(programmingJokes)
+    res.json(newJoke)
+})
+
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port http://localhost:${port}`)
